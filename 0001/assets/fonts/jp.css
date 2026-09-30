@@ -1,0 +1,3 @@
+/* Japanese glyphs used in the reel only (subset of Dela Gothic One / Zen Kaku Gothic New, OFL) */
+@font-face { font-family: "Dela"; src: url("dela-subset.woff2") format("woff2"); font-weight: 400; }
+@font-face { font-family: "ZenKaku"; src: url("zenkaku-subset.woff2") format("woff2"); font-weight: 500; }

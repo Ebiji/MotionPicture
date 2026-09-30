@@ -3,8 +3,9 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=1920, height=1080" />
-    <title>Showreel 2026</title>
+    <title>EIJI Showreel 2026</title>
     <script src="assets/gsap.min.js"></script>
+    <link rel="stylesheet" href="assets/fonts/jp.css" />
     <style>
       @font-face { font-family: "Anton"; src: url("assets/fonts/anton-latin-400-normal.woff2") format("woff2"); font-weight: 400; }
       @font-face { font-family: "Grotesk"; src: url("assets/fonts/space-grotesk-latin-500-normal.woff2") format("woff2"); font-weight: 500; }
@@ -20,11 +21,11 @@
       }
       * { margin: 0; padding: 0; box-sizing: border-box; }
       html, body { width: 1920px; height: 1080px; overflow: hidden; background: var(--ink); }
-      #root { position: relative; width: 1920px; height: 1080px; overflow: hidden; background: var(--ink); font-family: "Grotesk", sans-serif; color: var(--paper); }
+      #root { position: relative; width: 1920px; height: 1080px; overflow: hidden; background: var(--ink); font-family: "Grotesk", "ZenKaku", sans-serif; color: var(--paper); }
 
       .scene { position: absolute; inset: 0; overflow: hidden; }
-      .display { font-family: "Anton", sans-serif; font-weight: 400; line-height: 0.86; text-transform: uppercase; letter-spacing: -0.01em; }
-      .mono { font-family: "Mono", monospace; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; }
+      .display { font-family: "Anton", "Dela", sans-serif; font-weight: 400; line-height: 0.86; text-transform: uppercase; letter-spacing: -0.01em; }
+      .mono { font-family: "Mono", "ZenKaku", monospace; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; }
       .mask { display: block; overflow: hidden; }
       .ch { display: inline-block; will-change: transform; }
       .abs-center { position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); }
@@ -48,7 +49,9 @@
 
       /* ---------- S1 name ---------- */
       #s1 { background: var(--signal); color: var(--ink); }
-      #s1 .name { position: absolute; left: 110px; top: 150px; font-size: 400px; }
+      #s1 .name { position: absolute; left: 110px; top: 190px; font-size: 290px; }
+      #s1 .name .mask:first-child { font-size: 420px; }
+      #s1 .kana { position: absolute; left: 124px; top: 128px; font-family: "Dela"; font-size: 34px; letter-spacing: 0.4em; }
       #s1 .role { position: absolute; left: 120px; bottom: 150px; display: flex; gap: 18px; }
       #s1 .tag { padding: 14px 26px; border: 3px solid var(--ink); border-radius: 60px; font-size: 26px; }
       #s1 .tag.fill { background: var(--ink); color: var(--signal); }
@@ -65,7 +68,9 @@
       #s2 .row.r2 { top: 400px; }
       #s2 .row.r3 { top: 840px; }
       #s2 .word { position: absolute; left: 50%; top: 50%; font-size: 380px; transform: translate(-50%, -50%); white-space: nowrap; }
-      #s2 .word.hot { color: var(--signal); font-size: 420px; }
+      #s2 .word.jp { font-family: "Dela"; font-size: 300px; line-height: 1.1; }
+      #s2 .word.hot { color: var(--signal); font-family: "Dela"; font-size: 250px; line-height: 1.15; }
+      #s2 .furi { position: absolute; left: 50%; top: 250px; transform: translateX(-50%); font-size: 30px; letter-spacing: 0.3em; }
       #s2 .caption { position: absolute; right: 120px; bottom: 110px; font-size: 24px; text-align: right; line-height: 1.6; }
 
       /* ---------- S3 shapes ---------- */
@@ -79,21 +84,38 @@
       #s3 .shape.c2 { background: transparent; border: 8px solid var(--paper); }
       #s3 .shape.c3 { background: var(--acid); }
       #s3 .label { color: var(--paper); z-index: 4; }
+      #s3 .machine { position: absolute; left: 50%; top: 50%; width: 0; height: 0; }
+      #s3 .orb { position: absolute; border-radius: 50%; border: 3px solid rgba(243, 239, 230, 0.55); }
+      #s3 .orb i { position: absolute; left: 50%; top: -14px; width: 28px; height: 28px; margin-left: -14px; border-radius: 50%; display: block; }
+      #s3 .gen-copy { position: absolute; left: 0; width: 100%; bottom: 96px; display: flex; flex-direction: column; align-items: center; gap: 16px; z-index: 4; }
+      #s3 .gen-copy .jp { font-family: "Dela"; font-size: 52px; color: var(--paper); }
+      #s3 .gen-copy .mono { font-size: 20px; color: var(--acid); }
       #s3 .cover { position: absolute; left: 50%; top: 50%; width: 200px; height: 200px; margin: -100px; border-radius: 50%; background: var(--cobalt); }
 
       /* ---------- S4 data ---------- */
       #s4 { background: var(--cobalt); color: var(--paper); }
-      #s4 .big { position: absolute; left: 120px; top: 300px; font-size: 330px; }
-      #s4 .big .pct { color: var(--acid); }
-      #s4 .sub { position: absolute; left: 128px; top: 640px; font-size: 30px; }
-      #s4 .note { position: absolute; left: 128px; bottom: 110px; font-size: 18px; opacity: 0.6; }
+      #s4 .big { position: absolute; left: 120px; top: 330px; font-size: 330px; }
+      #s4 .big { color: var(--paper); }
+      #s4 .sub { line-height: 1.6; }
+      #s4 .ladder { position: absolute; right: 110px; top: 250px; width: 900px; display: flex; flex-direction: column; gap: 22px; }
+      #s4 .rk { position: relative; height: 104px; display: flex; align-items: center; gap: 28px; padding: 0 30px; border-radius: 14px; background: rgba(243, 239, 230, 0.1); overflow: hidden; }
+      #s4 .rk .fill { position: absolute; left: 0; top: 0; bottom: 0; background: var(--paper); transform-origin: left center; }
+      #s4 .rk .n { position: relative; font-family: "Anton"; font-size: 70px; width: 120px; color: var(--ink); }
+      #s4 .rk .n small { font-size: 34px; }
+      #s4 .rk .t { position: relative; display: flex; flex-direction: column; color: var(--ink); }
+      #s4 .rk .t b { font-size: 34px; font-weight: 700; line-height: 1.1; }
+      #s4 .rk .t span { font-size: 18px; }
+      #s4 .rk.hi .fill { background: var(--acid); }
+      #s4 .vinyl { position: absolute; left: 640px; top: 680px; width: 230px; height: 230px; border-radius: 50%; background: repeating-radial-gradient(circle, #111 0 3px, #1d1d22 3px 6px); box-shadow: 0 30px 80px rgba(0, 0, 0, 0.4); }
+      #s4 .vinyl .lbl { position: absolute; left: 50%; top: 50%; width: 86px; height: 86px; margin: -43px; border-radius: 50%; background: var(--signal); color: var(--ink); font-family: "Anton"; font-size: 26px; display: flex; align-items: center; justify-content: center; }
+      #s4 .vinyl .groove { position: absolute; inset: 20px; border-radius: 50%; border-top: 4px solid rgba(255, 255, 255, 0.25); }
+      #s4 .sub { position: absolute; left: 128px; top: 660px; font-size: 30px; }
+      #s4 .note { position: absolute; left: 128px; bottom: 110px; width: 700px; font-size: 18px; line-height: 1.6; opacity: 0.7; }
       #s4 .chart { position: absolute; right: 120px; top: 190px; width: 900px; height: 700px; }
       #s4 .axis { position: absolute; left: 0; bottom: 0; width: 100%; height: 3px; background: var(--paper); transform-origin: left center; }
       #s4 .bars { position: absolute; left: 20px; right: 20px; bottom: 3px; height: 560px; display: flex; align-items: flex-end; gap: 30px; }
       #s4 .b { flex: 1; background: var(--paper); transform-origin: center bottom; }
-      #s4 .b.hi { background: var(--acid); }
       #s4 svg.line { position: absolute; left: 0; top: 0; width: 900px; height: 700px; overflow: visible; }
-      #s4 .donut { position: absolute; right: 1080px; top: 130px; width: 150px; height: 150px; }
 
       /* ---------- S5 3D ---------- */
       #s5 { background: radial-gradient(ellipse at 50% 60%, #1b1b28 0%, var(--ink) 70%); perspective: 1600px; }
@@ -105,16 +127,18 @@
       #s5 .slot { position: absolute; left: -170px; top: -220px; width: 340px; height: 440px; transform-style: preserve-3d; }
       #s5 .card { width: 100%; height: 100%; border-radius: 22px; padding: 28px; display: flex; flex-direction: column; justify-content: space-between; backface-visibility: hidden; box-shadow: 0 30px 80px rgba(0, 0, 0, 0.5); }
       #s5 .card .k { font-size: 20px; }
-      #s5 .card .t { font-family: "Anton"; font-size: 96px; line-height: 0.9; text-transform: uppercase; }
+      #s5 .card .t { font-family: "Anton", "Dela"; font-size: 80px; line-height: 0.9; text-transform: uppercase; }
       #s5 .label { color: var(--paper); z-index: 5; }
       #s5 .title { position: absolute; left: 0; width: 100%; bottom: 90px; text-align: center; font-size: 150px; z-index: 5; }
+      #s5 .stars { position: absolute; inset: 0; }
+      #s5 .star { position: absolute; width: 4px; height: 4px; border-radius: 50%; background: #fff; }
       #s5 .cube { position: absolute; right: 230px; top: 250px; width: 0; height: 0; transform-style: preserve-3d; }
       #s5 .face { position: absolute; left: -80px; top: -80px; width: 160px; height: 160px; border: 3px solid var(--acid); background: rgba(200, 255, 46, 0.06); }
 
       /* ---------- S6 UI ---------- */
       #s6 { background: var(--paper); color: var(--ink); }
       #s6 .label { color: var(--ink); }
-      #s6 .win { position: absolute; left: 600px; top: 170px; width: 1200px; height: 780px; border-radius: 28px; background: #ffffff; box-shadow: 0 50px 120px rgba(10, 10, 12, 0.22); overflow: hidden; }
+      #s6 .win { position: absolute; left: 690px; top: 190px; width: 1130px; height: 780px; border-radius: 28px; background: #ffffff; box-shadow: 0 50px 120px rgba(10, 10, 12, 0.22); overflow: hidden; }
       #s6 .top { height: 70px; border-bottom: 2px solid #ece7dc; display: flex; align-items: center; gap: 12px; padding: 0 28px; }
       #s6 .top i { width: 16px; height: 16px; border-radius: 50%; background: #e2dccf; display: block; }
       #s6 .side { position: absolute; left: 0; top: 70px; bottom: 0; width: 250px; border-right: 2px solid #ece7dc; padding: 30px 24px; }
@@ -137,7 +161,8 @@
       #s6 .toast { position: absolute; right: 60px; top: 60px; padding: 22px 30px; border-radius: 18px; background: var(--ink); color: var(--paper); font-size: 22px; display: flex; gap: 16px; align-items: center; z-index: 6; }
       #s6 .toast b { width: 14px; height: 14px; border-radius: 50%; background: var(--acid); display: block; }
       #s6 .cursor { position: absolute; left: 0; top: 0; width: 44px; height: 54px; z-index: 8; }
-      #s6 .side-copy { position: absolute; left: 120px; top: 330px; width: 340px; font-size: 30px; line-height: 1.35; font-weight: 700; }
+      #s6 .side-copy { position: absolute; left: 120px; top: 330px; width: 440px; font-family: "Dela", "Grotesk"; font-weight: 400; font-size: 34px; line-height: 1.5; }
+      #s6 .side-copy .mono { display: block; margin-top: 24px; font-size: 20px; color: var(--signal); }
 
       /* ---------- S7 montage ---------- */
       #s7 .cut { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; visibility: hidden; }
@@ -148,10 +173,11 @@
       /* ---------- S8 outro ---------- */
       #s8 { background: var(--ink); }
       #s8 .mark { position: absolute; left: 50%; top: 150px; width: 170px; height: 170px; margin-left: -85px; border-radius: 50%; background: var(--signal); color: var(--ink); display: flex; align-items: center; justify-content: center; font-family: "Anton"; font-size: 84px; }
-      #s8 .name { position: absolute; left: 0; width: 100%; top: 380px; text-align: center; font-size: 260px; }
-      #s8 .role { position: absolute; left: 0; width: 100%; top: 650px; text-align: center; font-size: 30px; color: var(--signal); }
-      #s8 .rule { position: absolute; left: 50%; top: 730px; width: 900px; margin-left: -450px; height: 2px; background: rgba(243, 239, 230, 0.35); }
-      #s8 .contact { position: absolute; left: 0; width: 100%; top: 775px; display: flex; justify-content: center; gap: 70px; font-size: 26px; }
+      #s8 .name { position: absolute; left: 0; width: 100%; top: 350px; text-align: center; font-size: 300px; }
+      #s8 .tagline { position: absolute; left: 0; width: 100%; top: 690px; text-align: center; font-family: "Dela"; font-size: 30px; color: var(--paper); opacity: 0.85; }
+      #s8 .role { position: absolute; left: 0; width: 100%; top: 640px; text-align: center; font-size: 30px; color: var(--signal); }
+      #s8 .rule { position: absolute; left: 50%; top: 760px; width: 900px; margin-left: -450px; height: 2px; background: rgba(243, 239, 230, 0.35); }
+      #s8 .contact { position: absolute; left: 0; width: 100%; top: 800px; display: flex; justify-content: center; gap: 70px; font-size: 26px; }
       #s8 .avail { position: absolute; left: 50%; bottom: 110px; transform: translateX(-50%); padding: 14px 28px; border-radius: 40px; border: 2px solid var(--acid); color: var(--acid); font-size: 22px; display: flex; gap: 14px; align-items: center; }
       #s8 .avail b { width: 12px; height: 12px; border-radius: 50%; background: var(--acid); display: block; }
       #s8 .black { position: absolute; inset: 0; background: #000; }
@@ -209,16 +235,17 @@
           <svg viewBox="0 0 360 360">
             <defs><path id="circ" d="M180,180 m-140,0 a140,140 0 1,1 280,0 a140,140 0 1,1 -280,0" /></defs>
             <text font-family="Mono" font-size="24" fill="#0a0a0c">
-              <textPath href="#circ" textLength="872" lengthAdjust="spacing">SHOWREEL ✦ 2026 ✦ MOTION DESIGN ✦ SHOWREEL ✦ 2026 ✦ MOTION DESIGN ✦</textPath>
+              <textPath href="#circ" textLength="872" lengthAdjust="spacing">EIJI ✦ SHOWREEL 2026 ✦ CODE × MOTION × STORY ✦ EIJI ✦ SHOWREEL 2026 ✦</textPath>
             </text>
           </svg>
           <div class="dot"></div>
         </div>
+        <div class="kana">エイジ</div>
         <div class="role">
-          <div class="tag fill mono" data-bind="role">Motion Designer</div>
-          <div class="tag mono">Art Direction</div>
-          <div class="tag mono">2D / 3D</div>
-          <div class="tag mono">Brand Motion</div>
+          <div class="tag fill mono" data-bind="role">Motion Design</div>
+          <div class="tag mono">Generative Art</div>
+          <div class="tag mono">HyperFrames</div>
+          <div class="tag mono">Vibe Coding</div>
         </div>
         <div class="stripe"></div>
         <div class="black"></div>
@@ -226,55 +253,37 @@
 
       <!-- ============ S2 · KINETIC TYPE ============ -->
       <section id="s2" class="scene clip" data-start="5" data-duration="4.1" data-track-index="2">
-        <div class="row r1 display">MOTION DESIGN MOTION DESIGN MOTION DESIGN MOTION DESIGN</div>
-        <div class="row r2 display">TYPE IN MOTION TYPE IN MOTION TYPE IN MOTION TYPE IN MOTION</div>
-        <div class="row r3 display">RHYTHM TIMING RHYTHM TIMING RHYTHM TIMING RHYTHM TIMING</div>
-        <div class="label mono"><span class="num">01</span><span class="bar"></span><span>Kinetic Typography</span></div>
-        <div class="word display" id="w1">MOVE</div>
-        <div class="word display" id="w2">SHAPE</div>
-        <div class="word display" id="w3">FEEL</div>
-        <div class="word display" id="w4">TELL</div>
-        <div class="word hot display" id="w5"><span class="mask"><span class="split">STORIES</span></span></div>
-        <div class="caption mono">Every frame on the beat<br />Every cut with intent</div>
+        <div class="row r1 display">JUGEMU JUGEMU GOKOU NO SURIKIRE JUGEMU JUGEMU GOKOU NO SURIKIRE</div>
+        <div class="row r2 display">KAIJARI SUIGYO NO SUIGYOMATSU UNRAIMATSU FURAIMATSU KAIJARI</div>
+        <div class="row r3 display">KUNERU TOKORO NI SUMU TOKORO YABURA KOJI NO BURAKOJI</div>
+        <div class="label mono"><span class="num">01</span><span class="bar"></span><span>Kinetic Captions — 落語「寿限無」</span></div>
+        <div class="furi mono" id="furi">じゅげむ</div>
+        <div class="word jp" id="w1">寿限無</div>
+        <div class="word jp" id="w2">寿限無</div>
+        <div class="word jp" id="w3">五劫の</div>
+        <div class="word jp" id="w4">擦り切れ</div>
+        <div class="word hot" id="w5"><span class="mask"><span class="split">海砂利水魚</span></span></div>
+        <div class="caption mono">HyperFrames で映像化<br />読み上げの速さに文字を同期</div>
       </section>
 
       <!-- ============ S3 · SHAPE & RHYTHM ============ -->
       <section id="s3" class="scene clip" data-start="9" data-duration="4.1" data-track-index="3">
         <div class="sun"></div>
         <div class="grid" id="shapeGrid"></div>
-        <div class="label mono"><span class="num">02</span><span class="bar"></span><span>Shape &amp; Rhythm</span></div>
+        <div class="machine" id="machine"></div>
+        <div class="label mono"><span class="num">02</span><span class="bar"></span><span>Generative Art</span></div>
+        <div class="gen-copy"><span class="jp">7つの円が、狂気の回転マシンになるまで。</span><span class="mono">GenerativeArt-Psyche — Psychedelic × Quantum × Fractal — 100 works</span></div>
         <div class="cover"></div>
       </section>
 
       <!-- ============ S4 · DATA ============ -->
       <section id="s4" class="scene clip" data-start="13" data-duration="4.1" data-track-index="4">
-        <div class="label mono"><span class="num">03</span><span class="bar"></span><span>Data in Motion</span></div>
-        <div class="big display"><span id="counter">0</span><span class="pct">%</span></div>
-        <div class="sub mono">Growth, told in motion</div>
-        <div class="note mono">* sample data for demonstration</div>
-        <svg class="donut" viewBox="0 0 100 100">
-          <circle cx="50" cy="50" r="40" fill="none" stroke="rgba(243,239,230,0.25)" stroke-width="12" />
-          <circle id="donutArc" cx="50" cy="50" r="40" fill="none" stroke="#c8ff2e" stroke-width="12" pathLength="1" stroke-dasharray="1" stroke-dashoffset="1" transform="rotate(-90 50 50)" />
-        </svg>
-        <div class="chart">
-          <div class="bars">
-            <div class="b" style="height: 22%"></div>
-            <div class="b" style="height: 34%"></div>
-            <div class="b" style="height: 30%"></div>
-            <div class="b" style="height: 48%"></div>
-            <div class="b" style="height: 57%"></div>
-            <div class="b" style="height: 73%"></div>
-            <div class="b hi" style="height: 96%"></div>
-          </div>
-          <div class="axis"></div>
-          <svg class="line" viewBox="0 0 900 700">
-            <path id="trend" d="M 60 600 C 160 560, 200 520, 300 530 S 440 420, 520 400 S 660 260, 740 220 S 820 110, 850 70" fill="none" stroke="#ff4a1c" stroke-width="10" stroke-linecap="round" pathLength="1" stroke-dasharray="1" stroke-dashoffset="1" />
-            <circle class="pt" cx="300" cy="530" r="16" fill="#ff4a1c" />
-            <circle class="pt" cx="520" cy="400" r="16" fill="#ff4a1c" />
-            <circle class="pt" cx="740" cy="220" r="16" fill="#ff4a1c" />
-            <circle class="pt" cx="850" cy="70" r="22" fill="#c8ff2e" />
-          </svg>
-        </div>
+        <div class="label mono"><span class="num">03</span><span class="bar"></span><span>Music Writing — Billboard Year-End</span></div>
+        <div class="big display"><span id="counter">0</span></div>
+        <div class="sub mono">1982年ビルボード年間チャートを<br />くだけた文体で書きまくる連載</div>
+        <div class="note mono">Journey / Eddie Money / Sheena Easton / The Go-Go's / Elton John / America / Alabama</div>
+        <div class="ladder" id="ladder"></div>
+        <div class="vinyl" id="vinyl"><div class="groove"></div><div class="lbl">1982</div></div>
       </section>
 
       <!-- ============ S5 · 3D ============ -->
@@ -289,14 +298,15 @@
           <div class="face" style="transform: rotateX(90deg) translateZ(80px)"></div>
           <div class="face" style="transform: rotateX(-90deg) translateZ(80px)"></div>
         </div>
-        <div class="label mono"><span class="num">04</span><span class="bar"></span><span>Depth &amp; Space</span></div>
-        <div class="title display"><span class="mask"><span class="split">THINK IN 3D</span></span></div>
+        <div class="stars" id="stars"></div>
+        <div class="label mono"><span class="num">04</span><span class="bar"></span><span>3D &amp; WebGL — Crystal Valley Explorer</span></div>
+        <div class="title display"><span class="mask"><span class="split">MORE SPLENDID.</span></span></div>
       </section>
 
       <!-- ============ S6 · UI ============ -->
       <section id="s6" class="scene clip" data-start="21" data-duration="3.6" data-track-index="6">
-        <div class="label mono"><span class="num">05</span><span class="bar"></span><span>UI &amp; Product</span></div>
-        <div class="side-copy">Interfaces that feel alive. Micro&#8209;interactions with purpose.</div>
+        <div class="label mono"><span class="num">05</span><span class="bar"></span><span>AI × Creative Systems</span></div>
+        <div class="side-copy">Claude Code と組む、<br />自律制作と批評のしくみ。<span class="mono">AGENTS.md / CRITICS.md</span></div>
         <div class="win">
           <div class="top"><i></i><i></i><i></i></div>
           <div class="side">
@@ -307,18 +317,18 @@
             <div class="nav" style="width: 68%"></div>
           </div>
           <div class="main">
-            <div class="h"><span class="mask"><span class="split">Dashboard</span></span></div>
+            <div class="h"><span class="mask"><span class="split">CRITICS.md</span></span></div>
             <div class="cards">
-              <div class="ui a"><span class="mono">Views</span><span class="v">1.2M</span></div>
-              <div class="ui b"><span class="mono">Watch time</span><span class="v">98%</span></div>
-              <div class="ui c"><span class="mono">Shares</span><span class="v">42K</span></div>
+              <div class="ui a"><span class="mono">Maturity</span><span class="v">Lv 1–5</span></div>
+              <div class="ui b"><span class="mono">Critics council</span><span class="v">5</span></div>
+              <div class="ui c"><span class="mono">Autonomous works</span><span class="v">100</span></div>
             </div>
             <div class="row2">
               <div class="toggle" id="toggle"><div class="knob"></div></div>
-              <div class="btn" id="btn"><div class="ripple"></div><span>Publish</span></div>
+              <div class="btn" id="btn"><div class="ripple"></div><span>Critique</span></div>
             </div>
           </div>
-          <div class="toast mono"><b></b>Published successfully</div>
+          <div class="toast mono"><b></b>Stretch proposal ready</div>
         </div>
         <svg class="cursor" id="cursor" viewBox="0 0 44 54"><path d="M3 3 L3 44 L14 34 L22 51 L30 47 L22 31 L38 31 Z" fill="#0a0a0c" stroke="#fff" stroke-width="3" stroke-linejoin="round" /></svg>
       </section>
@@ -331,6 +341,7 @@
         <div class="mark" id="initials">YN</div>
         <div class="name display"><span class="mask"><span class="split" data-bind="full">YOUR NAME</span></span></div>
         <div class="role mono" data-bind="roleLong">Motion Designer — Art Direction</div>
+        <div class="tagline">コードで動かし、物語で見せる。</div>
         <div class="rule"></div>
         <div class="contact mono">
           <span data-bind="site">yourname.com</span>
@@ -350,7 +361,7 @@
       <div id="vignette" class="clip" data-start="0" data-duration="30" data-track-index="11"></div>
       <div id="hud" class="clip mono" data-start="2" data-duration="25" data-track-index="12">
         <div class="c tl"></div><div class="c tr"></div><div class="c bl"></div><div class="c br"></div>
-        <div class="m tl">Showreel ─ 2026</div>
+        <div class="m tl">EIJI ─ Showreel 2026</div>
         <div class="m tr" id="tc">00:00:00:00</div>
         <div class="m bl" id="sec">00 / 06</div>
         <div class="m br"><span class="rec" id="rec"></span>REC</div>
@@ -364,17 +375,17 @@
       // Personalise here — every name/contact on screen reads from CONFIG.
       // ------------------------------------------------------------------
       const CONFIG = {
-        first: "YOUR",
-        last: "NAME",
-        initials: "YN",
-        role: "Motion Designer",
-        roleLong: "Motion Designer — Art Direction",
-        site: "yourname.com",
-        mail: "hello@yourname.com",
-        handle: "@yourname",
-        tools: ["After Effects", "Cinema 4D", "Blender", "Houdini", "Figma", "GSAP", "Unreal", "DaVinci", "Touch Designer", "Rive"],
+        first: "EIJI",
+        last: "MOTION",
+        initials: "E",
+        role: "Motion Design",
+        roleLong: "Motion · Generative Art · Storytelling",
+        site: "github.com/ebiji",
+        mail: "GenerativeArt-Psyche",
+        handle: "MotionPicture / 0001",
+        tools: ["HyperFrames", "GSAP", "Three.js", "Claude Code", "HTML / CSS", "JavaScript", "MIDI", "YAML Prompt", "AGENTS.md", "Vibe Coding"],
       };
-      CONFIG.full = CONFIG.first + " " + CONFIG.last;
+      CONFIG.full = CONFIG.first;
 
       const $ = (s, r = document) => r.querySelector(s);
       const $$ = (s, r = document) => Array.from(r.querySelectorAll(s));
@@ -409,21 +420,49 @@
         }
       }
 
+      // S3 seven circles
+      const machine = $("#machine");
+      const orbColors = ["#ff4a1c", "#c8ff2e", "#2b4bff", "#f3efe6", "#ff4a1c", "#c8ff2e", "#2b4bff"];
+      for (let i = 0; i < 7; i++) {
+        const d = 150 + i * 95;
+        const o = document.createElement("div");
+        o.className = "orb";
+        o.style.cssText = `width:${d}px;height:${d}px;left:${-d / 2}px;top:${-d / 2 - 60}px`;
+        o.innerHTML = `<i style="background:${orbColors[i]}"></i>`;
+        machine.appendChild(o);
+      }
+
+      // S4 rank ladder (1982 Billboard year-end positions from EIJI's article series)
+      const ranks = [[55, "Alabama", "Love in the First Degree"], [58, "Eddie Money", "Think I'm in Love"], [62, "Elton John", "Blue Eyes"], [63, "The Go-Go's", "Our Lips Are Sealed"], [64, "Sheena Easton", "You Could Have Been with Me"]];
+      $("#ladder").innerHTML = ranks.map(([n, a, t], i) => `<div class="rk${i === 0 ? " hi" : ""}"><div class="fill" data-w="${((100 - n) / 45).toFixed(3)}"></div><span class="n"><small>#</small>${n}</span><span class="t"><b>${t}</b><span class="mono">${a}</span></span></div>`).join("");
+
       // S5 card orbit
       const cardDefs = [
-        ["#ff4a1c", "#0a0a0c", "Brand", "01"], ["#2b4bff", "#f3efe6", "Title", "02"],
-        ["#c8ff2e", "#0a0a0c", "Loop", "03"], ["#f3efe6", "#0a0a0c", "Logo", "04"],
-        ["#ff4a1c", "#0a0a0c", "Promo", "05"], ["#2b4bff", "#f3efe6", "Event", "06"],
-        ["#c8ff2e", "#0a0a0c", "Sting", "07"], ["#f3efe6", "#0a0a0c", "Reel", "08"],
+        ["#ff4a1c", "#0a0a0c", "Crystal Valley", "Three.js"], ["#2b4bff", "#f3efe6", "Psyche", "Generative"],
+        ["#c8ff2e", "#0a0a0c", "Quantum", "Color"], ["#f3efe6", "#0a0a0c", "Fractal", "100 works"],
+        ["#ff4a1c", "#0a0a0c", "寿限無", "HyperFrames"], ["#2b4bff", "#f3efe6", "Sacred Vow", "Video prompt"],
+        ["#c8ff2e", "#0a0a0c", "Twinkle", "MIDI"], ["#f3efe6", "#0a0a0c", "Critics", "CRITICS.md"],
       ];
       const orbit = $("#orbit");
       cardDefs.forEach(([bg, fg, t, k], i) => {
         const slot = document.createElement("div");
         slot.className = "slot";
         slot.style.transform = `rotateY(${i * 45}deg) translateZ(640px)`;
-        slot.innerHTML = `<div class="card" style="background:${bg};color:${fg}"><span class="k mono">Case ${k}</span><span class="t">${t}</span></div>`;
+        slot.innerHTML = `<div class="card" style="background:${bg};color:${fg}"><span class="k mono">${k}</span><span class="t">${t}</span></div>`;
         orbit.appendChild(slot);
       });
+
+      // S5 starfield (deterministic pseudo-random)
+      const starsEl = $("#stars");
+      let seed = 1982;
+      const rnd = () => ((seed = (seed * 16807) % 2147483647) / 2147483647);
+      for (let i = 0; i < 90; i++) {
+        const st = document.createElement("div");
+        st.className = "star";
+        const sz = 2 + rnd() * 4;
+        st.style.cssText = `left:${rnd() * 1920}px;top:${rnd() * 600}px;width:${sz}px;height:${sz}px;opacity:${0.3 + rnd() * 0.7}`;
+        starsEl.appendChild(st);
+      }
 
       // S7 montage cuts
       const cutStyles = [
@@ -442,7 +481,7 @@
           : i % 3 === 1
           ? `<div class="shape" style="width:1700px;height:40px;background:${fg};opacity:.2;transform:rotate(-8deg)"></div>`
           : `<div class="shape" style="width:420px;height:420px;border:10px solid ${fg};opacity:.25;transform:rotate(45deg)"></div>`;
-        d.innerHTML = `${shape}<span class="i mono">${String(i + 1).padStart(2, "0")} / Toolkit</span><span class="t display">${tool}</span>`;
+        d.innerHTML = `${shape}<span class="i mono">${String(i + 1).padStart(2, "0")} / EIJI Toolkit</span><span class="t display">${tool}</span>`;
         s7.appendChild(d);
       });
 
@@ -466,6 +505,7 @@
           let s = 0;
           secStarts.forEach((st, i) => { if (t >= st) s = Math.min(i + 1, 6); });
           secEl.textContent = `${pad(s)} / 06`;
+          if (t >= 5 && t < 9.1) furiEl.textContent = furi[Math.min(4, Math.max(0, Math.floor((t - 5.5) / B + 1e-6)))];
         },
       }, 0);
       tl.to("#grain", { x: 60, y: -40, duration: 30, ease: "steps(900)" }, 0);
@@ -507,6 +547,8 @@
       tl.fromTo("#s1 .badge", { scale: 0, rotation: -180 }, { scale: 1, rotation: 0, duration: 0.9, ease: "back.out(1.6)" }, 2.4);
       tl.to("#s1 .badge svg", { rotation: 200, duration: 2.6, ease: "none" }, 2.4);
       tl.fromTo("#s1 .badge .dot", { scale: 1 }, { scale: 0.7, duration: B / 2, ease: "power2.out", repeat: 9, yoyo: true }, 2.5);
+      tl.fromTo("#s1 .kana", { opacity: 0, x: -40 }, { opacity: 1, x: 0, duration: 0.6, ease: "expo.out" }, 2.5);
+      tl.to("#s1 .kana", { opacity: 0, duration: 0.2 }, 4.5);
       tl.fromTo("#s1 .tag", { y: 60, opacity: 0 }, { y: 0, opacity: 1, duration: 0.5, ease: "back.out(2)", stagger: 0.09 }, 2.9);
       tl.fromTo("#s1 .stripe", { scaleX: 0 }, { scaleX: 1, duration: 0.8, ease: "expo.out" }, 3.0);
       tl.to("#s1 .name .ch", { yPercent: -115, duration: 0.35, ease: "expo.in", stagger: 0.02 }, 4.45);
@@ -528,6 +570,10 @@
         { from: { scaleX: 0.1, scaleY: 1.6 }, to: { scaleX: 1, scaleY: 1 } },
         { from: { xPercent: 60, skewX: -30, opacity: 0 }, to: { xPercent: -50, skewX: 0, opacity: 1 } },
       ];
+      const furi = ["じゅげむ", "じゅげむ", "ごこうの", "すりきれ", "かいじゃりすいぎょ"];
+      const furiEl = $("#furi");
+      tl.fromTo(furiEl, { opacity: 0 }, { opacity: 1, duration: 0.2 }, 5.5);
+      tl.to(furiEl, { opacity: 0, duration: 0.2 }, 8.5);
       words.forEach((id, i) => {
         const t = 5.5 + i * B;
         tl.set(id, { xPercent: -50, yPercent: -50, left: "50%", top: "50%", x: 0, y: 0 }, 0);
@@ -552,6 +598,7 @@
       tl.fromTo("#s3 .sun", { scale: 0 }, { scale: 1, duration: 0.8, ease: "expo.out" }, 9.0);
       for (let k = 0; k < 6; k++) {
         const t = 10.0 + k * B;
+        if (k > 1) { tl.fromTo("#s3 .sun", { scale: 0.68 }, { scale: 0.62, duration: 0.4, ease: "power3.out", immediateRender: false }, t); continue; }
         tl.fromTo("#s3 .sun", { scale: 1.08 }, { scale: 1, duration: 0.4, ease: "power3.out", immediateRender: false }, t);
         shapes.forEach((el) => {
           const d = dist(el);
@@ -559,12 +606,19 @@
           tl.to(el, { rotation: "+=90", borderRadius: round, duration: 0.35, ease: "back.out(1.8)" }, t + d * 0.035);
         });
       }
+      // 7-circle machine: grid dissolves at 11.0, the machine spins up
+      shapes.forEach((el) => tl.to(el, { scale: 0, opacity: 0, duration: 0.3, ease: "back.in(2)" }, 10.85 + dist(el) * 0.03));
+      const orbs = $$("#s3 .orb");
+      orbs.forEach((o, i) => {
+        tl.fromTo(o, { scale: 0, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.5, ease: "back.out(1.8)" }, 11.0 + i * 0.06);
+        tl.fromTo(o, { rotation: i * 51 }, { rotation: i * 51 + (i % 2 ? -1 : 1) * (240 + i * 110), duration: 1.6, ease: "power2.in" }, 11.0);
+      });
+      tl.to("#s3 .sun", { scale: 0.62, duration: 0.6, ease: "expo.inOut" }, 10.9);
+      tl.fromTo("#s3 .gen-copy > *", { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: 0.5, ease: "expo.out", stagger: 0.12 }, 11.1);
+      tl.to("#s3 .gen-copy", { opacity: 0, duration: 0.25 }, 12.3);
+      tl.to(orbs, { scale: 0.05, duration: 0.4, ease: "expo.in", stagger: 0.02 }, 12.2);
       tl.fromTo("#s3 .label", { opacity: 0, x: -30 }, { opacity: 1, x: 0, duration: 0.4 }, 9.2);
       tl.fromTo("#s3 .label .bar", { scaleX: 0 }, { scaleX: 1, duration: 0.6, ease: "expo.out" }, 9.25);
-      shapes.forEach((el) => {
-        const r = +el.dataset.r, c = +el.dataset.c;
-        tl.to(el, { x: (4 - c) * 152, y: (2 - r) * 152 - 40, scale: 0.2, duration: 0.45, ease: "expo.in" }, 12.2 + dist(el) * 0.02);
-      });
       tl.to("#s3 .sun", { scale: 0.2, duration: 0.45, ease: "expo.in" }, 12.2);
       tl.fromTo("#s3 .cover", { scale: 0 }, { scale: 14, duration: 0.4, ease: "expo.in" }, 12.62);
 
@@ -573,23 +627,23 @@
       tl.fromTo("#s4 .label .bar", { scaleX: 0 }, { scaleX: 1, duration: 0.6, ease: "expo.out" }, 13.15);
       const ctr = { v: 0 };
       const ctrEl = $("#counter");
-      tl.fromTo(ctr, { v: 0 }, { v: 248, duration: 2.0, ease: "expo.out", onUpdate: () => (ctrEl.textContent = Math.round(ctr.v)) }, 13.2);
+      tl.fromTo(ctr, { v: 0 }, { v: 1982, duration: 1.6, ease: "expo.out", onUpdate: () => (ctrEl.textContent = Math.round(ctr.v)) }, 13.2);
       tl.fromTo("#s4 .big", { yPercent: 40, opacity: 0 }, { yPercent: 0, opacity: 1, duration: 0.6, ease: "expo.out" }, 13.15);
-      tl.fromTo("#s4 .sub, #s4 .note", { opacity: 0, y: 20 }, { opacity: (i) => (i ? 0.6 : 1), y: 0, duration: 0.5, stagger: 0.15 }, 13.6);
-      tl.fromTo("#s4 .axis", { scaleX: 0 }, { scaleX: 1, duration: 0.7, ease: "expo.out" }, 13.2);
-      tl.fromTo("#s4 .b", { scaleY: 0 }, { scaleY: 1, duration: 0.7, ease: "back.out(1.4)", stagger: B / 2 }, 13.5);
-      tl.fromTo("#trend", { strokeDashoffset: 1 }, { strokeDashoffset: 0, duration: 1.6, ease: "power2.inOut" }, 14.4);
-      tl.fromTo("#s4 .pt", { scale: 0, transformOrigin: "50% 50%" }, { scale: 1, duration: 0.35, ease: "back.out(3)", stagger: 0.38 }, 14.8);
-      tl.fromTo("#donutArc", { strokeDashoffset: 1 }, { strokeDashoffset: 0.12, duration: 1.4, ease: "expo.out" }, 14.0);
-      tl.fromTo("#s4 .donut", { rotation: -120, scale: 0 }, { rotation: 0, scale: 1, duration: 0.8, ease: "back.out(1.6)" }, 13.8);
-      for (let k = 0; k < 4; k++) tl.fromTo("#s4 .b.hi", { scaleX: 1.12 }, { scaleX: 1, duration: 0.35, ease: "power3.out", immediateRender: false }, 15.0 + k * B * 2);
-      tl.to("#s4 .big, #s4 .chart, #s4 .donut", { y: -60, opacity: 0, duration: 0.35, ease: "power3.in", stagger: 0.05 }, 16.55);
+      tl.fromTo("#s4 .sub, #s4 .note", { opacity: 0, y: 20 }, { opacity: (i) => (i ? 0.7 : 1), y: 0, duration: 0.5, stagger: 0.15 }, 13.6);
+      tl.fromTo("#vinyl", { x: -400, rotation: -200, opacity: 0 }, { x: 0, rotation: 0, opacity: 1, duration: 0.8, ease: "expo.out" }, 13.3);
+      tl.to("#vinyl", { rotation: 900, duration: 3.0, ease: "none" }, 14.1);
+      tl.fromTo("#s4 .rk", { x: 200, opacity: 0 }, { x: 0, opacity: 1, duration: 0.5, ease: "expo.out", stagger: B / 2 }, 13.5);
+      $$("#s4 .rk .fill").forEach((f, i) => tl.fromTo(f, { scaleX: 0 }, { scaleX: +f.dataset.w, duration: 0.7, ease: "expo.out" }, 13.6 + i * B / 2));
+      for (let k = 0; k < 4; k++) tl.fromTo("#s4 .rk.hi", { scale: 1.03 }, { scale: 1, duration: 0.35, ease: "power3.out", immediateRender: false }, 15.0 + k * B * 2);
+      tl.to("#s4 .big, #s4 .ladder, #vinyl, #s4 .sub, #s4 .note", { y: -60, opacity: 0, duration: 0.35, ease: "power3.in", stagger: 0.04 }, 16.55);
 
       // ================= S5 3D (17 → 21) =================
       tl.fromTo("#orbit", { rotationY: 40, rotationX: -8 }, { rotationY: -250, rotationX: -8, duration: 4.1, ease: "power1.inOut" }, 17.0);
       tl.fromTo(".stage", { z: -1400, y: 80 }, { z: -300, y: -40, duration: 1.2, ease: "expo.out" }, 17.0);
       tl.fromTo("#s5 .floor", { backgroundPositionY: "0px" }, { backgroundPositionY: "480px", duration: 4.1, ease: "none" }, 17.0);
       tl.fromTo("#s5 .card", { scale: 0.4, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.6, ease: "back.out(1.6)", stagger: 0.06 }, 17.1);
+      tl.fromTo("#s5 .star", { scale: 0 }, { scale: 1, duration: 0.4, ease: "back.out(3)", stagger: { each: 0.01, from: "random" } }, 17.0);
+      tl.to("#s5 .star", { opacity: 0.15, duration: B / 2, yoyo: true, repeat: 7, stagger: { each: 0.02, from: "end" }, ease: "sine.inOut" }, 17.5);
       tl.fromTo("#cube", { rotationX: -20, rotationY: 0 }, { rotationX: 340, rotationY: 400, duration: 4.1, ease: "none" }, 17.0);
       tl.set("#cube", { scale: 0 }, 0);
       tl.fromTo("#cube", { scale: 0 }, { scale: 1, duration: 0.6, ease: "back.out(2)", immediateRender: false }, 17.3);
@@ -608,11 +662,11 @@
       tl.fromTo("#s6 .ui", { y: 80, scale: 0.85, opacity: 0 }, { y: 0, scale: 1, opacity: 1, duration: 0.55, ease: "back.out(1.7)", stagger: 0.1 }, 21.7);
       tl.fromTo("#s6 .row2 > *", { y: 40, opacity: 0 }, { y: 0, opacity: 1, duration: 0.4, ease: "back.out(2)", stagger: 0.08 }, 22.0);
       // cursor path: in → toggle → button
-      tl.fromTo("#cursor", { x: 1900, y: 1000 }, { x: 935, y: 712, duration: 0.55, ease: "power3.inOut" }, 22.1);
+      tl.fromTo("#cursor", { x: 1900, y: 1000 }, { x: 1025, y: 732, duration: 0.55, ease: "power3.inOut" }, 22.1);
       tl.to("#cursor", { scale: 0.8, duration: 0.08, yoyo: true, repeat: 1 }, 22.65);
       tl.to("#toggle", { backgroundColor: "#c8ff2e", duration: 0.2 }, 22.7);
       tl.fromTo("#toggle .knob", { x: 0 }, { x: 62, duration: 0.3, ease: "back.out(2.5)" }, 22.7);
-      tl.to("#cursor", { x: 1135, y: 716, duration: 0.4, ease: "power3.inOut" }, 22.95);
+      tl.to("#cursor", { x: 1225, y: 736, duration: 0.4, ease: "power3.inOut" }, 22.95);
       tl.to("#cursor", { scale: 0.8, duration: 0.08, yoyo: true, repeat: 1 }, 23.4);
       tl.fromTo("#btn", { scale: 1 }, { scale: 0.94, duration: 0.08, yoyo: true, repeat: 1, immediateRender: false }, 23.4);
       tl.fromTo("#s6 .ripple", { scale: 0, opacity: 1 }, { scale: 12, opacity: 1, duration: 0.45, ease: "expo.out" }, 23.45);
@@ -635,6 +689,7 @@
       tl.fromTo("#s8 .mark", { scale: 0, rotation: -200 }, { scale: 1, rotation: 0, duration: 0.8, ease: "back.out(1.7)" }, 27.0);
       tl.fromTo("#s8 .name .ch", { yPercent: 115 }, { yPercent: 0, duration: 0.7, ease: "expo.out", stagger: 0.035 }, 27.1);
       tl.fromTo("#s8 .role", { opacity: 0, y: 24, scaleX: 1.25 }, { opacity: 1, y: 0, scaleX: 1, duration: 0.9, ease: "expo.out" }, 27.5);
+      tl.fromTo("#s8 .tagline", { opacity: 0, y: 20 }, { opacity: 0.85, y: 0, duration: 0.6, ease: "expo.out" }, 27.7);
       tl.fromTo("#s8 .rule", { scaleX: 0 }, { scaleX: 1, duration: 0.8, ease: "expo.inOut" }, 27.6);
       tl.fromTo("#s8 .contact span", { y: 30, opacity: 0 }, { y: 0, opacity: 1, duration: 0.5, ease: "expo.out", stagger: 0.1 }, 27.9);
       tl.fromTo("#s8 .avail", { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.5 }, 28.3);

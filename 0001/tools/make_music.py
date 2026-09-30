@@ -201,6 +201,17 @@ while t0 < 27.0 - 1e-6:
     t0 += 2.0
     bar += 1
 
+# "Twinkle Twinkle Little Star" bell motif over the 3D scene (a nod to EIJI's MIDI piece)
+def bell(freq, n_sec=1.2):
+    n = int(n_sec * SR)
+    t = np.arange(n) / SR
+    s = np.sin(2 * np.pi * freq * t) + 0.35 * np.sin(2 * np.pi * freq * 2.76 * t) * np.exp(-t / 0.15)
+    return s * env(n, 0.002, 0.45)
+
+
+for i, m in enumerate((72, 72, 79, 79, 81, 81, 79)):  # C C G G A A G
+    add(bell(hz(m), 1.6 if i == 6 else 1.0), 17.0 + i * BEAT, 0.28, pan=(-0.3 if i % 2 else 0.3))
+
 # Montage glitch blips every 1/8 bar
 for i in range(20):
     tt = 24.5 + i * 0.125
