@@ -1,6 +1,6 @@
 # 0001 — EIJI Showreel 2026 (30s)
 
-A 30-second showreel for EIJI, built from EIJI's actual body of work (the conversation log in `EIJI.md`). It is an HTML composition built with [HyperFrames](https://hyperframes.heygen.com), animated with GSAP and rendered to MP4.
+A 30-second showreel for EIJI, built from EIJI's actual body of work (taken from the conversation log EIJI provided). It is an HTML composition built with [HyperFrames](https://hyperframes.heygen.com), animated with GSAP and rendered to MP4.
 
 - **Finished video:** `renders/showreel.mp4` (1920×1080 / 30fps / H.264 + AAC)
 - **Tempo:** 120 BPM. Every cut and accent lands on the beat.
