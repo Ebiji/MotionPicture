@@ -1,0 +1,652 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1920, height=1080" />
+    <title>Showreel 2026</title>
+    <script src="assets/gsap.min.js"></script>
+    <style>
+      @font-face { font-family: "Anton"; src: url("assets/fonts/anton-latin-400-normal.woff2") format("woff2"); font-weight: 400; }
+      @font-face { font-family: "Grotesk"; src: url("assets/fonts/space-grotesk-latin-500-normal.woff2") format("woff2"); font-weight: 500; }
+      @font-face { font-family: "Grotesk"; src: url("assets/fonts/space-grotesk-latin-700-normal.woff2") format("woff2"); font-weight: 700; }
+      @font-face { font-family: "Mono"; src: url("assets/fonts/jetbrains-mono-latin-500-normal.woff2") format("woff2"); font-weight: 500; }
+
+      :root {
+        --ink: #0a0a0c;
+        --paper: #f3efe6;
+        --signal: #ff4a1c;
+        --cobalt: #2b4bff;
+        --acid: #c8ff2e;
+      }
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+      html, body { width: 1920px; height: 1080px; overflow: hidden; background: var(--ink); }
+      #root { position: relative; width: 1920px; height: 1080px; overflow: hidden; background: var(--ink); font-family: "Grotesk", sans-serif; color: var(--paper); }
+
+      .scene { position: absolute; inset: 0; overflow: hidden; }
+      .display { font-family: "Anton", sans-serif; font-weight: 400; line-height: 0.86; text-transform: uppercase; letter-spacing: -0.01em; }
+      .mono { font-family: "Mono", monospace; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; }
+      .mask { display: block; overflow: hidden; }
+      .ch { display: inline-block; will-change: transform; }
+      .abs-center { position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); }
+
+      /* ---------- section label (shared) ---------- */
+      .label { position: absolute; left: 120px; top: 120px; display: flex; align-items: center; gap: 22px; font-size: 26px; }
+      .label .num { font-family: "Anton"; font-size: 64px; letter-spacing: 0; }
+      .label .bar { width: 80px; height: 3px; background: currentColor; transform-origin: left center; }
+
+      /* ---------- S0 intro ---------- */
+      #s0 { background: var(--ink); }
+      #s0 .gridline { position: absolute; background: rgba(243, 239, 230, 0.14); }
+      #s0 .gridline.h { left: 0; width: 100%; height: 1px; transform-origin: left center; }
+      #s0 .gridline.v { top: 0; height: 100%; width: 1px; transform-origin: center top; }
+      #s0 .count { position: absolute; left: 50%; top: 50%; font-size: 560px; transform: translate(-50%, -50%); color: var(--paper); }
+      #s0 .ring { position: absolute; left: 50%; top: 50%; width: 700px; height: 700px; margin: -350px 0 0 -350px; border: 6px solid var(--signal); border-radius: 50%; }
+      #s0 .reel { position: absolute; left: 0; width: 100%; text-align: center; font-size: 330px; }
+      #s0 .reel.a { top: 170px; }
+      #s0 .reel.b { top: 520px; color: var(--signal); }
+      #s0 .flash { position: absolute; inset: 0; background: var(--signal); }
+
+      /* ---------- S1 name ---------- */
+      #s1 { background: var(--signal); color: var(--ink); }
+      #s1 .name { position: absolute; left: 110px; top: 150px; font-size: 400px; }
+      #s1 .role { position: absolute; left: 120px; bottom: 150px; display: flex; gap: 18px; }
+      #s1 .tag { padding: 14px 26px; border: 3px solid var(--ink); border-radius: 60px; font-size: 26px; }
+      #s1 .tag.fill { background: var(--ink); color: var(--signal); }
+      #s1 .badge { position: absolute; right: 150px; top: 170px; width: 360px; height: 360px; }
+      #s1 .badge svg { width: 100%; height: 100%; }
+      #s1 .badge .dot { position: absolute; left: 50%; top: 50%; width: 110px; height: 110px; margin: -55px; border-radius: 50%; background: var(--ink); }
+      #s1 .stripe { position: absolute; right: 0; bottom: 0; width: 760px; height: 26px; background: var(--ink); transform-origin: right center; }
+      #s1 .black { position: absolute; inset: 0; background: var(--ink); transform-origin: left center; }
+
+      /* ---------- S2 kinetic type ---------- */
+      #s2 { background: var(--paper); color: var(--ink); }
+      #s2 .row { position: absolute; left: 0; white-space: nowrap; font-size: 250px; color: transparent; -webkit-text-stroke: 2px rgba(10, 10, 12, 0.18); }
+      #s2 .row.r1 { top: -40px; }
+      #s2 .row.r2 { top: 400px; }
+      #s2 .row.r3 { top: 840px; }
+      #s2 .word { position: absolute; left: 50%; top: 50%; font-size: 380px; transform: translate(-50%, -50%); white-space: nowrap; }
+      #s2 .word.hot { color: var(--signal); font-size: 420px; }
+      #s2 .caption { position: absolute; right: 120px; bottom: 110px; font-size: 24px; text-align: right; line-height: 1.6; }
+
+      /* ---------- S3 shapes ---------- */
+      #s3 { background: var(--ink); }
+      #s3 .sun { position: absolute; left: 50%; top: 50%; width: 820px; height: 820px; margin: -410px; border-radius: 50%; background: var(--signal); }
+      #s3 .grid { position: absolute; left: 50%; top: 50%; width: 1380px; height: 740px; margin: -330px 0 0 -690px; display: grid; grid-template-columns: repeat(9, 1fr); grid-template-rows: repeat(5, 1fr); gap: 24px; }
+      #s3 .cell { display: flex; align-items: center; justify-content: center; }
+      #s3 .shape { width: 108px; height: 108px; border-radius: 0; }
+      #s3 .shape.c0 { background: var(--paper); }
+      #s3 .shape.c1 { background: var(--cobalt); }
+      #s3 .shape.c2 { background: transparent; border: 8px solid var(--paper); }
+      #s3 .shape.c3 { background: var(--acid); }
+      #s3 .label { color: var(--paper); z-index: 4; }
+      #s3 .cover { position: absolute; left: 50%; top: 50%; width: 200px; height: 200px; margin: -100px; border-radius: 50%; background: var(--cobalt); }
+
+      /* ---------- S4 data ---------- */
+      #s4 { background: var(--cobalt); color: var(--paper); }
+      #s4 .big { position: absolute; left: 120px; top: 300px; font-size: 330px; }
+      #s4 .big .pct { color: var(--acid); }
+      #s4 .sub { position: absolute; left: 128px; top: 640px; font-size: 30px; }
+      #s4 .note { position: absolute; left: 128px; bottom: 110px; font-size: 18px; opacity: 0.6; }
+      #s4 .chart { position: absolute; right: 120px; top: 190px; width: 900px; height: 700px; }
+      #s4 .axis { position: absolute; left: 0; bottom: 0; width: 100%; height: 3px; background: var(--paper); transform-origin: left center; }
+      #s4 .bars { position: absolute; left: 20px; right: 20px; bottom: 3px; height: 560px; display: flex; align-items: flex-end; gap: 30px; }
+      #s4 .b { flex: 1; background: var(--paper); transform-origin: center bottom; }
+      #s4 .b.hi { background: var(--acid); }
+      #s4 svg.line { position: absolute; left: 0; top: 0; width: 900px; height: 700px; overflow: visible; }
+      #s4 .donut { position: absolute; right: 1080px; top: 130px; width: 150px; height: 150px; }
+
+      /* ---------- S5 3D ---------- */
+      #s5 { background: radial-gradient(ellipse at 50% 60%, #1b1b28 0%, var(--ink) 70%); perspective: 1600px; }
+      #s5 .floor { position: absolute; left: -50%; top: 58%; width: 200%; height: 900px; transform-origin: center top; transform: rotateX(78deg);
+        background-image: linear-gradient(rgba(255, 74, 28, 0.55) 2px, transparent 2px), linear-gradient(90deg, rgba(255, 74, 28, 0.55) 2px, transparent 2px);
+        background-size: 120px 120px; }
+      #s5 .stage { position: absolute; left: 50%; top: 50%; width: 0; height: 0; transform-style: preserve-3d; }
+      #s5 .orbit { position: absolute; transform-style: preserve-3d; }
+      #s5 .slot { position: absolute; left: -170px; top: -220px; width: 340px; height: 440px; transform-style: preserve-3d; }
+      #s5 .card { width: 100%; height: 100%; border-radius: 22px; padding: 28px; display: flex; flex-direction: column; justify-content: space-between; backface-visibility: hidden; box-shadow: 0 30px 80px rgba(0, 0, 0, 0.5); }
+      #s5 .card .k { font-size: 20px; }
+      #s5 .card .t { font-family: "Anton"; font-size: 96px; line-height: 0.9; text-transform: uppercase; }
+      #s5 .label { color: var(--paper); z-index: 5; }
+      #s5 .title { position: absolute; left: 0; width: 100%; bottom: 90px; text-align: center; font-size: 150px; z-index: 5; }
+      #s5 .cube { position: absolute; right: 230px; top: 250px; width: 0; height: 0; transform-style: preserve-3d; }
+      #s5 .face { position: absolute; left: -80px; top: -80px; width: 160px; height: 160px; border: 3px solid var(--acid); background: rgba(200, 255, 46, 0.06); }
+
+      /* ---------- S6 UI ---------- */
+      #s6 { background: var(--paper); color: var(--ink); }
+      #s6 .label { color: var(--ink); }
+      #s6 .win { position: absolute; left: 600px; top: 170px; width: 1200px; height: 780px; border-radius: 28px; background: #ffffff; box-shadow: 0 50px 120px rgba(10, 10, 12, 0.22); overflow: hidden; }
+      #s6 .top { height: 70px; border-bottom: 2px solid #ece7dc; display: flex; align-items: center; gap: 12px; padding: 0 28px; }
+      #s6 .top i { width: 16px; height: 16px; border-radius: 50%; background: #e2dccf; display: block; }
+      #s6 .side { position: absolute; left: 0; top: 70px; bottom: 0; width: 250px; border-right: 2px solid #ece7dc; padding: 30px 24px; }
+      #s6 .nav { height: 22px; border-radius: 11px; background: #ece7dc; margin-bottom: 24px; transform-origin: left center; }
+      #s6 .nav.on { background: var(--ink); }
+      #s6 .main { position: absolute; left: 250px; right: 0; top: 70px; bottom: 0; padding: 40px; }
+      #s6 .h { font-family: "Anton"; font-size: 84px; line-height: 1; text-transform: uppercase; }
+      #s6 .cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 26px; margin-top: 34px; }
+      #s6 .ui { height: 250px; border-radius: 20px; padding: 24px; display: flex; flex-direction: column; justify-content: space-between; }
+      #s6 .ui .v { font-family: "Anton"; font-size: 72px; line-height: 1; }
+      #s6 .ui.a { background: var(--signal); color: var(--ink); }
+      #s6 .ui.b { background: var(--ink); color: var(--paper); }
+      #s6 .ui.c { background: var(--cobalt); color: var(--paper); }
+      #s6 .row2 { display: flex; align-items: center; gap: 26px; margin-top: 34px; }
+      #s6 .toggle { width: 128px; height: 66px; border-radius: 33px; background: #e2dccf; position: relative; }
+      #s6 .knob { position: absolute; left: 7px; top: 7px; width: 52px; height: 52px; border-radius: 50%; background: #fff; box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); }
+      #s6 .btn { position: relative; overflow: hidden; padding: 20px 48px; border-radius: 40px; background: var(--ink); color: var(--paper); font-size: 26px; font-weight: 700; }
+      #s6 .ripple { position: absolute; left: 50%; top: 50%; width: 40px; height: 40px; margin: -20px; border-radius: 50%; background: var(--signal); }
+      #s6 .btn span { position: relative; }
+      #s6 .toast { position: absolute; right: 60px; top: 60px; padding: 22px 30px; border-radius: 18px; background: var(--ink); color: var(--paper); font-size: 22px; display: flex; gap: 16px; align-items: center; z-index: 6; }
+      #s6 .toast b { width: 14px; height: 14px; border-radius: 50%; background: var(--acid); display: block; }
+      #s6 .cursor { position: absolute; left: 0; top: 0; width: 44px; height: 54px; z-index: 8; }
+      #s6 .side-copy { position: absolute; left: 120px; top: 330px; width: 340px; font-size: 30px; line-height: 1.35; font-weight: 700; }
+
+      /* ---------- S7 montage ---------- */
+      #s7 .cut { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; visibility: hidden; }
+      #s7 .cut .t { font-size: 300px; white-space: nowrap; }
+      #s7 .cut .i { position: absolute; left: 120px; top: 110px; font-size: 26px; }
+      #s7 .cut .shape { position: absolute; }
+
+      /* ---------- S8 outro ---------- */
+      #s8 { background: var(--ink); }
+      #s8 .mark { position: absolute; left: 50%; top: 150px; width: 170px; height: 170px; margin-left: -85px; border-radius: 50%; background: var(--signal); color: var(--ink); display: flex; align-items: center; justify-content: center; font-family: "Anton"; font-size: 84px; }
+      #s8 .name { position: absolute; left: 0; width: 100%; top: 380px; text-align: center; font-size: 260px; }
+      #s8 .role { position: absolute; left: 0; width: 100%; top: 650px; text-align: center; font-size: 30px; color: var(--signal); }
+      #s8 .rule { position: absolute; left: 50%; top: 730px; width: 900px; margin-left: -450px; height: 2px; background: rgba(243, 239, 230, 0.35); }
+      #s8 .contact { position: absolute; left: 0; width: 100%; top: 775px; display: flex; justify-content: center; gap: 70px; font-size: 26px; }
+      #s8 .avail { position: absolute; left: 50%; bottom: 110px; transform: translateX(-50%); padding: 14px 28px; border-radius: 40px; border: 2px solid var(--acid); color: var(--acid); font-size: 22px; display: flex; gap: 14px; align-items: center; }
+      #s8 .avail b { width: 12px; height: 12px; border-radius: 50%; background: var(--acid); display: block; }
+      #s8 .black { position: absolute; inset: 0; background: #000; }
+
+      /* ---------- global overlays ---------- */
+      #wipes { position: absolute; inset: 0; pointer-events: none; }
+      .wipe { position: absolute; top: -10%; left: 0; width: 2700px; height: 120%; }
+      .wipe.w1 { background: var(--signal); }
+      .wipe.w2 { background: var(--ink); }
+      .wipe.w3 { background: var(--paper); }
+
+      #hud { position: absolute; inset: 0; pointer-events: none; mix-blend-mode: difference; color: #fff; }
+      #hud .c { position: absolute; width: 40px; height: 40px; border-color: #fff; border-style: solid; border-width: 0; }
+      #hud .c.tl { left: 48px; top: 48px; border-left-width: 3px; border-top-width: 3px; }
+      #hud .c.tr { right: 48px; top: 48px; border-right-width: 3px; border-top-width: 3px; }
+      #hud .c.bl { left: 48px; bottom: 48px; border-left-width: 3px; border-bottom-width: 3px; }
+      #hud .c.br { right: 48px; bottom: 48px; border-right-width: 3px; border-bottom-width: 3px; }
+      #hud .m { position: absolute; font-size: 18px; }
+      #hud .m.tl { left: 110px; top: 58px; }
+      #hud .m.tr { right: 110px; top: 58px; }
+      #hud .m.bl { left: 110px; bottom: 58px; }
+      #hud .m.br { right: 110px; bottom: 58px; display: flex; gap: 10px; align-items: center; }
+      #hud .rec { width: 12px; height: 12px; border-radius: 50%; background: #fff; }
+      #grain { position: absolute; left: -100px; top: -100px; width: 2120px; height: 1280px; pointer-events: none; opacity: 0.09; mix-blend-mode: overlay;
+        background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='256' height='256'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>"); }
+      #vignette { position: absolute; inset: 0; pointer-events: none; background: radial-gradient(ellipse at center, transparent 55%, rgba(0, 0, 0, 0.35) 100%); }
+    </style>
+  </head>
+  <body>
+    <div id="root" data-composition-id="main" data-start="0" data-duration="30" data-width="1920" data-height="1080">
+      <!-- ============ S0 · INTRO / COUNTDOWN ============ -->
+      <section id="s0" class="scene clip" data-start="0" data-duration="2.1" data-track-index="0">
+        <div class="gridline h" style="top: 270px"></div>
+        <div class="gridline h" style="top: 540px"></div>
+        <div class="gridline h" style="top: 810px"></div>
+        <div class="gridline v" style="left: 480px"></div>
+        <div class="gridline v" style="left: 960px"></div>
+        <div class="gridline v" style="left: 1440px"></div>
+        <div class="ring"></div>
+        <div class="count display" id="c3">3</div>
+        <div class="count display" id="c2">2</div>
+        <div class="count display" id="c1">1</div>
+        <div class="reel a display"><span class="mask"><span class="split">SHOW</span></span></div>
+        <div class="reel b display"><span class="mask"><span class="split">REEL</span></span></div>
+        <div class="flash"></div>
+      </section>
+
+      <!-- ============ S1 · NAME ============ -->
+      <section id="s1" class="scene clip" data-start="2" data-duration="3.1" data-track-index="1">
+        <div class="name display">
+          <span class="mask"><span class="split" data-bind="first">YOUR</span></span>
+          <span class="mask"><span class="split" data-bind="last">NAME</span></span>
+        </div>
+        <div class="badge">
+          <svg viewBox="0 0 360 360">
+            <defs><path id="circ" d="M180,180 m-140,0 a140,140 0 1,1 280,0 a140,140 0 1,1 -280,0" /></defs>
+            <text font-family="Mono" font-size="24" fill="#0a0a0c">
+              <textPath href="#circ" textLength="872" lengthAdjust="spacing">SHOWREEL ✦ 2026 ✦ MOTION DESIGN ✦ SHOWREEL ✦ 2026 ✦ MOTION DESIGN ✦</textPath>
+            </text>
+          </svg>
+          <div class="dot"></div>
+        </div>
+        <div class="role">
+          <div class="tag fill mono" data-bind="role">Motion Designer</div>
+          <div class="tag mono">Art Direction</div>
+          <div class="tag mono">2D / 3D</div>
+          <div class="tag mono">Brand Motion</div>
+        </div>
+        <div class="stripe"></div>
+        <div class="black"></div>
+      </section>
+
+      <!-- ============ S2 · KINETIC TYPE ============ -->
+      <section id="s2" class="scene clip" data-start="5" data-duration="4.1" data-track-index="2">
+        <div class="row r1 display">MOTION DESIGN MOTION DESIGN MOTION DESIGN MOTION DESIGN</div>
+        <div class="row r2 display">TYPE IN MOTION TYPE IN MOTION TYPE IN MOTION TYPE IN MOTION</div>
+        <div class="row r3 display">RHYTHM TIMING RHYTHM TIMING RHYTHM TIMING RHYTHM TIMING</div>
+        <div class="label mono"><span class="num">01</span><span class="bar"></span><span>Kinetic Typography</span></div>
+        <div class="word display" id="w1">MOVE</div>
+        <div class="word display" id="w2">SHAPE</div>
+        <div class="word display" id="w3">FEEL</div>
+        <div class="word display" id="w4">TELL</div>
+        <div class="word hot display" id="w5"><span class="mask"><span class="split">STORIES</span></span></div>
+        <div class="caption mono">Every frame on the beat<br />Every cut with intent</div>
+      </section>
+
+      <!-- ============ S3 · SHAPE & RHYTHM ============ -->
+      <section id="s3" class="scene clip" data-start="9" data-duration="4.1" data-track-index="3">
+        <div class="sun"></div>
+        <div class="grid" id="shapeGrid"></div>
+        <div class="label mono"><span class="num">02</span><span class="bar"></span><span>Shape &amp; Rhythm</span></div>
+        <div class="cover"></div>
+      </section>
+
+      <!-- ============ S4 · DATA ============ -->
+      <section id="s4" class="scene clip" data-start="13" data-duration="4.1" data-track-index="4">
+        <div class="label mono"><span class="num">03</span><span class="bar"></span><span>Data in Motion</span></div>
+        <div class="big display"><span id="counter">0</span><span class="pct">%</span></div>
+        <div class="sub mono">Growth, told in motion</div>
+        <div class="note mono">* sample data for demonstration</div>
+        <svg class="donut" viewBox="0 0 100 100">
+          <circle cx="50" cy="50" r="40" fill="none" stroke="rgba(243,239,230,0.25)" stroke-width="12" />
+          <circle id="donutArc" cx="50" cy="50" r="40" fill="none" stroke="#c8ff2e" stroke-width="12" pathLength="1" stroke-dasharray="1" stroke-dashoffset="1" transform="rotate(-90 50 50)" />
+        </svg>
+        <div class="chart">
+          <div class="bars">
+            <div class="b" style="height: 22%"></div>
+            <div class="b" style="height: 34%"></div>
+            <div class="b" style="height: 30%"></div>
+            <div class="b" style="height: 48%"></div>
+            <div class="b" style="height: 57%"></div>
+            <div class="b" style="height: 73%"></div>
+            <div class="b hi" style="height: 96%"></div>
+          </div>
+          <div class="axis"></div>
+          <svg class="line" viewBox="0 0 900 700">
+            <path id="trend" d="M 60 600 C 160 560, 200 520, 300 530 S 440 420, 520 400 S 660 260, 740 220 S 820 110, 850 70" fill="none" stroke="#ff4a1c" stroke-width="10" stroke-linecap="round" pathLength="1" stroke-dasharray="1" stroke-dashoffset="1" />
+            <circle class="pt" cx="300" cy="530" r="16" fill="#ff4a1c" />
+            <circle class="pt" cx="520" cy="400" r="16" fill="#ff4a1c" />
+            <circle class="pt" cx="740" cy="220" r="16" fill="#ff4a1c" />
+            <circle class="pt" cx="850" cy="70" r="22" fill="#c8ff2e" />
+          </svg>
+        </div>
+      </section>
+
+      <!-- ============ S5 · 3D ============ -->
+      <section id="s5" class="scene clip" data-start="17" data-duration="4.1" data-track-index="5">
+        <div class="floor"></div>
+        <div class="stage"><div class="orbit" id="orbit"></div></div>
+        <div class="cube" id="cube">
+          <div class="face" style="transform: translateZ(80px)"></div>
+          <div class="face" style="transform: rotateY(180deg) translateZ(80px)"></div>
+          <div class="face" style="transform: rotateY(90deg) translateZ(80px)"></div>
+          <div class="face" style="transform: rotateY(-90deg) translateZ(80px)"></div>
+          <div class="face" style="transform: rotateX(90deg) translateZ(80px)"></div>
+          <div class="face" style="transform: rotateX(-90deg) translateZ(80px)"></div>
+        </div>
+        <div class="label mono"><span class="num">04</span><span class="bar"></span><span>Depth &amp; Space</span></div>
+        <div class="title display"><span class="mask"><span class="split">THINK IN 3D</span></span></div>
+      </section>
+
+      <!-- ============ S6 · UI ============ -->
+      <section id="s6" class="scene clip" data-start="21" data-duration="3.6" data-track-index="6">
+        <div class="label mono"><span class="num">05</span><span class="bar"></span><span>UI &amp; Product</span></div>
+        <div class="side-copy">Interfaces that feel alive. Micro&#8209;interactions with purpose.</div>
+        <div class="win">
+          <div class="top"><i></i><i></i><i></i></div>
+          <div class="side">
+            <div class="nav on" style="width: 80%"></div>
+            <div class="nav" style="width: 64%"></div>
+            <div class="nav" style="width: 72%"></div>
+            <div class="nav" style="width: 50%"></div>
+            <div class="nav" style="width: 68%"></div>
+          </div>
+          <div class="main">
+            <div class="h"><span class="mask"><span class="split">Dashboard</span></span></div>
+            <div class="cards">
+              <div class="ui a"><span class="mono">Views</span><span class="v">1.2M</span></div>
+              <div class="ui b"><span class="mono">Watch time</span><span class="v">98%</span></div>
+              <div class="ui c"><span class="mono">Shares</span><span class="v">42K</span></div>
+            </div>
+            <div class="row2">
+              <div class="toggle" id="toggle"><div class="knob"></div></div>
+              <div class="btn" id="btn"><div class="ripple"></div><span>Publish</span></div>
+            </div>
+          </div>
+          <div class="toast mono"><b></b>Published successfully</div>
+        </div>
+        <svg class="cursor" id="cursor" viewBox="0 0 44 54"><path d="M3 3 L3 44 L14 34 L22 51 L30 47 L22 31 L38 31 Z" fill="#0a0a0c" stroke="#fff" stroke-width="3" stroke-linejoin="round" /></svg>
+      </section>
+
+      <!-- ============ S7 · MONTAGE (tool stack) ============ -->
+      <section id="s7" class="scene clip" data-start="24.5" data-duration="2.6" data-track-index="7"></section>
+
+      <!-- ============ S8 · OUTRO ============ -->
+      <section id="s8" class="scene clip" data-start="27" data-duration="3" data-track-index="8">
+        <div class="mark" id="initials">YN</div>
+        <div class="name display"><span class="mask"><span class="split" data-bind="full">YOUR NAME</span></span></div>
+        <div class="role mono" data-bind="roleLong">Motion Designer — Art Direction</div>
+        <div class="rule"></div>
+        <div class="contact mono">
+          <span data-bind="site">yourname.com</span>
+          <span data-bind="mail">hello@yourname.com</span>
+          <span data-bind="handle">@yourname</span>
+        </div>
+        <div class="avail mono"><b></b>Available for work — 2026</div>
+        <div class="black"></div>
+      </section>
+
+      <!-- ============ GLOBAL OVERLAYS ============ -->
+      <div id="wipes" class="clip" data-start="0" data-duration="30" data-track-index="9">
+        <div class="wipe w1" id="wa"></div>
+        <div class="wipe w2" id="wb"></div>
+      </div>
+      <div id="grain" class="clip" data-start="0" data-duration="30" data-track-index="10"></div>
+      <div id="vignette" class="clip" data-start="0" data-duration="30" data-track-index="11"></div>
+      <div id="hud" class="clip mono" data-start="2" data-duration="25" data-track-index="12">
+        <div class="c tl"></div><div class="c tr"></div><div class="c bl"></div><div class="c br"></div>
+        <div class="m tl">Showreel ─ 2026</div>
+        <div class="m tr" id="tc">00:00:00:00</div>
+        <div class="m bl" id="sec">00 / 06</div>
+        <div class="m br"><span class="rec" id="rec"></span>REC</div>
+      </div>
+
+      <audio id="bgm" data-start="0" data-duration="30" data-track-index="13" data-volume="1" src="assets/showreel.wav"></audio>
+    </div>
+
+    <script>
+      // ------------------------------------------------------------------
+      // Personalise here — every name/contact on screen reads from CONFIG.
+      // ------------------------------------------------------------------
+      const CONFIG = {
+        first: "YOUR",
+        last: "NAME",
+        initials: "YN",
+        role: "Motion Designer",
+        roleLong: "Motion Designer — Art Direction",
+        site: "yourname.com",
+        mail: "hello@yourname.com",
+        handle: "@yourname",
+        tools: ["After Effects", "Cinema 4D", "Blender", "Houdini", "Figma", "GSAP", "Unreal", "DaVinci", "Touch Designer", "Rive"],
+      };
+      CONFIG.full = CONFIG.first + " " + CONFIG.last;
+
+      const $ = (s, r = document) => r.querySelector(s);
+      const $$ = (s, r = document) => Array.from(r.querySelectorAll(s));
+
+      $$("[data-bind]").forEach((el) => (el.textContent = CONFIG[el.dataset.bind]));
+      $("#initials").textContent = CONFIG.initials;
+
+      // split text into per-character spans
+      $$(".split").forEach((el) => {
+        const txt = el.textContent;
+        el.textContent = "";
+        for (const c of txt) {
+          const s = document.createElement("span");
+          s.className = "ch";
+          s.textContent = c === " " ? "\u00a0" : c;
+          el.appendChild(s);
+        }
+      });
+
+      // S3 shape grid (deterministic pattern)
+      const grid = $("#shapeGrid");
+      for (let r = 0; r < 5; r++) {
+        for (let c = 0; c < 9; c++) {
+          const cell = document.createElement("div");
+          cell.className = "cell";
+          const sh = document.createElement("div");
+          sh.className = "shape c" + ((r * 3 + c * 2) % 4);
+          sh.dataset.r = r;
+          sh.dataset.c = c;
+          cell.appendChild(sh);
+          grid.appendChild(cell);
+        }
+      }
+
+      // S5 card orbit
+      const cardDefs = [
+        ["#ff4a1c", "#0a0a0c", "Brand", "01"], ["#2b4bff", "#f3efe6", "Title", "02"],
+        ["#c8ff2e", "#0a0a0c", "Loop", "03"], ["#f3efe6", "#0a0a0c", "Logo", "04"],
+        ["#ff4a1c", "#0a0a0c", "Promo", "05"], ["#2b4bff", "#f3efe6", "Event", "06"],
+        ["#c8ff2e", "#0a0a0c", "Sting", "07"], ["#f3efe6", "#0a0a0c", "Reel", "08"],
+      ];
+      const orbit = $("#orbit");
+      cardDefs.forEach(([bg, fg, t, k], i) => {
+        const slot = document.createElement("div");
+        slot.className = "slot";
+        slot.style.transform = `rotateY(${i * 45}deg) translateZ(640px)`;
+        slot.innerHTML = `<div class="card" style="background:${bg};color:${fg}"><span class="k mono">Case ${k}</span><span class="t">${t}</span></div>`;
+        orbit.appendChild(slot);
+      });
+
+      // S7 montage cuts
+      const cutStyles = [
+        ["#ff4a1c", "#0a0a0c"], ["#0a0a0c", "#f3efe6"], ["#2b4bff", "#f3efe6"], ["#f3efe6", "#0a0a0c"], ["#c8ff2e", "#0a0a0c"],
+        ["#0a0a0c", "#ff4a1c"], ["#ff4a1c", "#f3efe6"], ["#f3efe6", "#2b4bff"], ["#2b4bff", "#c8ff2e"], ["#0a0a0c", "#c8ff2e"],
+      ];
+      const s7 = $("#s7");
+      CONFIG.tools.slice(0, 10).forEach((tool, i) => {
+        const [bg, fg] = cutStyles[i];
+        const d = document.createElement("div");
+        d.className = "cut";
+        d.style.background = bg;
+        d.style.color = fg;
+        const shape = i % 3 === 0
+          ? `<div class="shape" style="width:520px;height:520px;border-radius:50%;border:10px solid ${fg};opacity:.25"></div>`
+          : i % 3 === 1
+          ? `<div class="shape" style="width:1700px;height:40px;background:${fg};opacity:.2;transform:rotate(-8deg)"></div>`
+          : `<div class="shape" style="width:420px;height:420px;border:10px solid ${fg};opacity:.25;transform:rotate(45deg)"></div>`;
+        d.innerHTML = `${shape}<span class="i mono">${String(i + 1).padStart(2, "0")} / Toolkit</span><span class="t display">${tool}</span>`;
+        s7.appendChild(d);
+      });
+
+      // ------------------------------------------------------------------
+      // TIMELINE  (120 BPM → 1 beat = 0.5s, 1 bar = 2s)
+      // ------------------------------------------------------------------
+      const tl = gsap.timeline({ paused: true });
+      const B = 0.5;
+
+      // ---- HUD: timecode + section index + grain jitter (seek-safe via proxy) ----
+      const clock = { t: 0 };
+      const secStarts = [5, 9, 13, 17, 21, 24.5, 27];
+      const tcEl = $("#tc"), secEl = $("#sec");
+      tl.to(clock, {
+        t: 30, duration: 30, ease: "none",
+        onUpdate() {
+          const t = clock.t;
+          const f = Math.floor(t * 30 + 1e-6);
+          const pad = (n) => String(n).padStart(2, "0");
+          tcEl.textContent = `00:00:${pad(Math.floor(f / 30))}:${pad(f % 30)}`;
+          let s = 0;
+          secStarts.forEach((st, i) => { if (t >= st) s = Math.min(i + 1, 6); });
+          secEl.textContent = `${pad(s)} / 06`;
+        },
+      }, 0);
+      tl.to("#grain", { x: 60, y: -40, duration: 30, ease: "steps(900)" }, 0);
+      tl.fromTo("#rec", { opacity: 1 }, { opacity: 0.15, duration: B, ease: "steps(1)", repeat: 49, yoyo: true }, 2);
+      tl.from("#hud .c", { scale: 1.8, opacity: 0, duration: 0.5, ease: "expo.out", stagger: 0.05 }, 2.05);
+      tl.from("#hud .m", { opacity: 0, y: 10, duration: 0.4, stagger: 0.06 }, 2.2);
+
+      // ---- transitions: skewed slab wipes on the cuts ----
+      function wipe(at, a = "#ff4a1c", b = "#0a0a0c") {
+        tl.set("#wa", { backgroundColor: a }, at - 0.4);
+        tl.set("#wb", { backgroundColor: b }, at - 0.4);
+        tl.fromTo("#wa", { x: -3100 }, { x: 2300, duration: 0.8, ease: "expo.inOut", immediateRender: false }, at - 0.4);
+        tl.fromTo("#wb", { x: -3100 }, { x: 2300, duration: 0.8, ease: "expo.inOut", immediateRender: false }, at - 0.32);
+      }
+      tl.set("#wa, #wb", { x: -3100, skewX: -12 }, 0);
+      wipe(9, "#ff4a1c", "#0a0a0c");
+      wipe(17, "#c8ff2e", "#0a0a0c");
+      wipe(21, "#ff4a1c", "#f3efe6");
+
+      // ================= S0 INTRO =================
+      tl.fromTo("#s0 .gridline.h", { scaleX: 0 }, { scaleX: 1, duration: 0.9, ease: "expo.out", stagger: 0.08 }, 0);
+      tl.fromTo("#s0 .gridline.v", { scaleY: 0 }, { scaleY: 1, duration: 0.9, ease: "expo.out", stagger: 0.08 }, 0.1);
+      ["#c3", "#c2", "#c1"].forEach((id, i) => {
+        const t = i * B;
+        tl.fromTo(id, { scale: 1.5, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.18, ease: "power4.out" }, t);
+        tl.to(id, { scale: 0.85, opacity: 0, duration: 0.12, ease: "power2.in" }, t + 0.38);
+        tl.fromTo("#s0 .ring", { scale: 0.3, opacity: 1, borderWidth: 30 }, { scale: 1.35, opacity: 0, borderWidth: 2, duration: 0.5, ease: "power3.out", immediateRender: false }, t);
+      });
+      tl.set("#s0 .ring", { opacity: 0 }, 0);
+      tl.fromTo("#s0 .reel.a .ch", { yPercent: 110 }, { yPercent: 0, duration: 0.35, ease: "expo.out", stagger: 0.03 }, 1.5);
+      tl.fromTo("#s0 .reel.b .ch", { yPercent: -110 }, { yPercent: 0, duration: 0.35, ease: "expo.out", stagger: 0.03 }, 1.55);
+      tl.to("#s0 .reel.a", { x: -80, duration: 0.5, ease: "none" }, 1.5);
+      tl.to("#s0 .reel.b", { x: 80, duration: 0.5, ease: "none" }, 1.5);
+      tl.fromTo("#s0 .flash", { opacity: 0 }, { opacity: 1, duration: 0.08, ease: "none" }, 1.92);
+
+      // ================= S1 NAME (2 → 5) =================
+      tl.fromTo("#s1 .name .ch", { yPercent: 115, rotation: 8 }, { yPercent: 0, rotation: 0, duration: 0.7, ease: "expo.out", stagger: 0.045 }, 2.02);
+      tl.fromTo("#s1 .name", { scale: 1.12 }, { scale: 1, duration: 2.6, ease: "power2.out", transformOrigin: "left center" }, 2.0);
+      tl.fromTo("#s1 .badge", { scale: 0, rotation: -180 }, { scale: 1, rotation: 0, duration: 0.9, ease: "back.out(1.6)" }, 2.4);
+      tl.to("#s1 .badge svg", { rotation: 200, duration: 2.6, ease: "none" }, 2.4);
+      tl.fromTo("#s1 .badge .dot", { scale: 1 }, { scale: 0.7, duration: B / 2, ease: "power2.out", repeat: 9, yoyo: true }, 2.5);
+      tl.fromTo("#s1 .tag", { y: 60, opacity: 0 }, { y: 0, opacity: 1, duration: 0.5, ease: "back.out(2)", stagger: 0.09 }, 2.9);
+      tl.fromTo("#s1 .stripe", { scaleX: 0 }, { scaleX: 1, duration: 0.8, ease: "expo.out" }, 3.0);
+      tl.to("#s1 .name .ch", { yPercent: -115, duration: 0.35, ease: "expo.in", stagger: 0.02 }, 4.45);
+      tl.to("#s1 .tag", { y: 80, opacity: 0, duration: 0.3, ease: "power3.in", stagger: 0.03 }, 4.5);
+      tl.to("#s1 .badge", { scale: 0, duration: 0.3, ease: "back.in(2)" }, 4.6);
+      tl.fromTo("#s1 .black", { scaleX: 0 }, { scaleX: 1, duration: 0.25, ease: "expo.in" }, 4.75);
+
+      // ================= S2 KINETIC TYPE (5 → 9) =================
+      tl.fromTo("#s2", { clipPath: "circle(0% at 50% 50%)" }, { clipPath: "circle(75% at 50% 50%)", duration: 0.45, ease: "expo.out" }, 5.0);
+      tl.fromTo("#s2 .row.r1", { x: 0 }, { x: -900, duration: 4.1, ease: "none" }, 5.0);
+      tl.fromTo("#s2 .row.r2", { x: -1400 }, { x: -500, duration: 4.1, ease: "none" }, 5.0);
+      tl.fromTo("#s2 .row.r3", { x: -200 }, { x: -1100, duration: 4.1, ease: "none" }, 5.0);
+      tl.fromTo("#s2 .label .bar", { scaleX: 0 }, { scaleX: 1, duration: 0.6, ease: "expo.out" }, 5.2);
+      tl.fromTo("#s2 .label", { opacity: 0, x: -30 }, { opacity: 1, x: 0, duration: 0.4 }, 5.15);
+      const words = ["#w1", "#w2", "#w3", "#w4"];
+      const ins = [
+        { from: { scale: 2.4, opacity: 0 }, to: { scale: 1, opacity: 1 } },
+        { from: { yPercent: -150, rotation: -12 }, to: { yPercent: -50, rotation: 0 } },
+        { from: { scaleX: 0.1, scaleY: 1.6 }, to: { scaleX: 1, scaleY: 1 } },
+        { from: { xPercent: 60, skewX: -30, opacity: 0 }, to: { xPercent: -50, skewX: 0, opacity: 1 } },
+      ];
+      words.forEach((id, i) => {
+        const t = 5.5 + i * B;
+        tl.set(id, { xPercent: -50, yPercent: -50, left: "50%", top: "50%", x: 0, y: 0 }, 0);
+        tl.set(id, { visibility: "hidden" }, 0);
+        tl.set(id, { visibility: "visible" }, t);
+        tl.fromTo(id, ins[i].from, { ...ins[i].to, duration: 0.3, ease: "expo.out", immediateRender: false }, t);
+        tl.set(id, { visibility: "hidden" }, t + B);
+      });
+      tl.fromTo("#w5 .ch", { yPercent: 150, scaleY: 1.4 }, { yPercent: 0, scaleY: 1, duration: 0.5, ease: "expo.out", stagger: 0.035 }, 7.5);
+      tl.to("#w5", { scale: 1.08, duration: 0.9, ease: "power1.inOut" }, 7.9);
+      tl.to("#w5 .ch", { scaleY: 1.35, yPercent: -8, duration: B / 2, ease: "power2.out", stagger: { each: 0.03, from: "center" }, yoyo: true, repeat: 1 }, 8.0);
+      tl.fromTo("#s2 .caption", { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.5 }, 6.0);
+      tl.to("#w5 .ch", { yPercent: -120, duration: 0.3, ease: "expo.in", stagger: 0.02 }, 8.55);
+
+      // ================= S3 SHAPE & RHYTHM (9 → 13) =================
+      const shapes = $$("#s3 .shape");
+      const dist = (el) => Math.hypot(el.dataset.r - 2, el.dataset.c - 4);
+      shapes.forEach((el) => {
+        const d = dist(el);
+        tl.fromTo(el, { scale: 0, rotation: -90 }, { scale: 1, rotation: 0, duration: 0.6, ease: "back.out(2)", immediateRender: true }, 9.05 + d * 0.06);
+      });
+      tl.fromTo("#s3 .sun", { scale: 0 }, { scale: 1, duration: 0.8, ease: "expo.out" }, 9.0);
+      for (let k = 0; k < 6; k++) {
+        const t = 10.0 + k * B;
+        tl.fromTo("#s3 .sun", { scale: 1.08 }, { scale: 1, duration: 0.4, ease: "power3.out", immediateRender: false }, t);
+        shapes.forEach((el) => {
+          const d = dist(el);
+          const round = k % 2 === 0 ? "50%" : "0%";
+          tl.to(el, { rotation: "+=90", borderRadius: round, duration: 0.35, ease: "back.out(1.8)" }, t + d * 0.035);
+        });
+      }
+      tl.fromTo("#s3 .label", { opacity: 0, x: -30 }, { opacity: 1, x: 0, duration: 0.4 }, 9.2);
+      tl.fromTo("#s3 .label .bar", { scaleX: 0 }, { scaleX: 1, duration: 0.6, ease: "expo.out" }, 9.25);
+      shapes.forEach((el) => {
+        const r = +el.dataset.r, c = +el.dataset.c;
+        tl.to(el, { x: (4 - c) * 152, y: (2 - r) * 152 - 40, scale: 0.2, duration: 0.45, ease: "expo.in" }, 12.2 + dist(el) * 0.02);
+      });
+      tl.to("#s3 .sun", { scale: 0.2, duration: 0.45, ease: "expo.in" }, 12.2);
+      tl.fromTo("#s3 .cover", { scale: 0 }, { scale: 14, duration: 0.4, ease: "expo.in" }, 12.62);
+
+      // ================= S4 DATA (13 → 17) =================
+      tl.fromTo("#s4 .label", { opacity: 0, x: -30 }, { opacity: 1, x: 0, duration: 0.4 }, 13.1);
+      tl.fromTo("#s4 .label .bar", { scaleX: 0 }, { scaleX: 1, duration: 0.6, ease: "expo.out" }, 13.15);
+      const ctr = { v: 0 };
+      const ctrEl = $("#counter");
+      tl.fromTo(ctr, { v: 0 }, { v: 248, duration: 2.0, ease: "expo.out", onUpdate: () => (ctrEl.textContent = Math.round(ctr.v)) }, 13.2);
+      tl.fromTo("#s4 .big", { yPercent: 40, opacity: 0 }, { yPercent: 0, opacity: 1, duration: 0.6, ease: "expo.out" }, 13.15);
+      tl.fromTo("#s4 .sub, #s4 .note", { opacity: 0, y: 20 }, { opacity: (i) => (i ? 0.6 : 1), y: 0, duration: 0.5, stagger: 0.15 }, 13.6);
+      tl.fromTo("#s4 .axis", { scaleX: 0 }, { scaleX: 1, duration: 0.7, ease: "expo.out" }, 13.2);
+      tl.fromTo("#s4 .b", { scaleY: 0 }, { scaleY: 1, duration: 0.7, ease: "back.out(1.4)", stagger: B / 2 }, 13.5);
+      tl.fromTo("#trend", { strokeDashoffset: 1 }, { strokeDashoffset: 0, duration: 1.6, ease: "power2.inOut" }, 14.4);
+      tl.fromTo("#s4 .pt", { scale: 0, transformOrigin: "50% 50%" }, { scale: 1, duration: 0.35, ease: "back.out(3)", stagger: 0.38 }, 14.8);
+      tl.fromTo("#donutArc", { strokeDashoffset: 1 }, { strokeDashoffset: 0.12, duration: 1.4, ease: "expo.out" }, 14.0);
+      tl.fromTo("#s4 .donut", { rotation: -120, scale: 0 }, { rotation: 0, scale: 1, duration: 0.8, ease: "back.out(1.6)" }, 13.8);
+      for (let k = 0; k < 4; k++) tl.fromTo("#s4 .b.hi", { scaleX: 1.12 }, { scaleX: 1, duration: 0.35, ease: "power3.out", immediateRender: false }, 15.0 + k * B * 2);
+      tl.to("#s4 .big, #s4 .chart, #s4 .donut", { y: -60, opacity: 0, duration: 0.35, ease: "power3.in", stagger: 0.05 }, 16.55);
+
+      // ================= S5 3D (17 → 21) =================
+      tl.fromTo("#orbit", { rotationY: 40, rotationX: -8 }, { rotationY: -250, rotationX: -8, duration: 4.1, ease: "power1.inOut" }, 17.0);
+      tl.fromTo(".stage", { z: -1400, y: 80 }, { z: -300, y: -40, duration: 1.2, ease: "expo.out" }, 17.0);
+      tl.fromTo("#s5 .floor", { backgroundPositionY: "0px" }, { backgroundPositionY: "480px", duration: 4.1, ease: "none" }, 17.0);
+      tl.fromTo("#s5 .card", { scale: 0.4, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.6, ease: "back.out(1.6)", stagger: 0.06 }, 17.1);
+      tl.fromTo("#cube", { rotationX: -20, rotationY: 0 }, { rotationX: 340, rotationY: 400, duration: 4.1, ease: "none" }, 17.0);
+      tl.set("#cube", { scale: 0 }, 0);
+      tl.fromTo("#cube", { scale: 0 }, { scale: 1, duration: 0.6, ease: "back.out(2)", immediateRender: false }, 17.3);
+      tl.fromTo("#s5 .label", { opacity: 0, x: -30 }, { opacity: 1, x: 0, duration: 0.4 }, 17.2);
+      tl.fromTo("#s5 .label .bar", { scaleX: 0 }, { scaleX: 1, duration: 0.6, ease: "expo.out" }, 17.25);
+      tl.fromTo("#s5 .title .ch", { yPercent: 110 }, { yPercent: 0, duration: 0.5, ease: "expo.out", stagger: 0.03 }, 18.0);
+      tl.to(".stage", { z: 900, duration: 0.5, ease: "expo.in" }, 20.55);
+
+      // ================= S6 UI (21 → 24.5) =================
+      tl.fromTo("#s6 .win", { y: 260, rotationX: 25, opacity: 0, transformPerspective: 1600 }, { y: 0, rotationX: 0, opacity: 1, duration: 0.8, ease: "expo.out" }, 21.05);
+      tl.fromTo("#s6 .label", { opacity: 0, x: -30 }, { opacity: 1, x: 0, duration: 0.4 }, 21.1);
+      tl.fromTo("#s6 .label .bar", { scaleX: 0 }, { scaleX: 1, duration: 0.6, ease: "expo.out" }, 21.15);
+      tl.fromTo("#s6 .side-copy", { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: 0.5 }, 21.4);
+      tl.fromTo("#s6 .nav", { scaleX: 0 }, { scaleX: 1, duration: 0.5, ease: "expo.out", stagger: 0.05 }, 21.4);
+      tl.fromTo("#s6 .h .ch", { yPercent: 110 }, { yPercent: 0, duration: 0.45, ease: "expo.out", stagger: 0.025 }, 21.5);
+      tl.fromTo("#s6 .ui", { y: 80, scale: 0.85, opacity: 0 }, { y: 0, scale: 1, opacity: 1, duration: 0.55, ease: "back.out(1.7)", stagger: 0.1 }, 21.7);
+      tl.fromTo("#s6 .row2 > *", { y: 40, opacity: 0 }, { y: 0, opacity: 1, duration: 0.4, ease: "back.out(2)", stagger: 0.08 }, 22.0);
+      // cursor path: in → toggle → button
+      tl.fromTo("#cursor", { x: 1900, y: 1000 }, { x: 935, y: 712, duration: 0.55, ease: "power3.inOut" }, 22.1);
+      tl.to("#cursor", { scale: 0.8, duration: 0.08, yoyo: true, repeat: 1 }, 22.65);
+      tl.to("#toggle", { backgroundColor: "#c8ff2e", duration: 0.2 }, 22.7);
+      tl.fromTo("#toggle .knob", { x: 0 }, { x: 62, duration: 0.3, ease: "back.out(2.5)" }, 22.7);
+      tl.to("#cursor", { x: 1135, y: 716, duration: 0.4, ease: "power3.inOut" }, 22.95);
+      tl.to("#cursor", { scale: 0.8, duration: 0.08, yoyo: true, repeat: 1 }, 23.4);
+      tl.fromTo("#btn", { scale: 1 }, { scale: 0.94, duration: 0.08, yoyo: true, repeat: 1, immediateRender: false }, 23.4);
+      tl.fromTo("#s6 .ripple", { scale: 0, opacity: 1 }, { scale: 12, opacity: 1, duration: 0.45, ease: "expo.out" }, 23.45);
+      tl.fromTo("#s6 .toast", { y: -120, opacity: 0 }, { y: 0, opacity: 1, duration: 0.45, ease: "back.out(2)" }, 23.55);
+      tl.to("#s6 .ui .v", { scale: 1.12, duration: 0.15, yoyo: true, repeat: 1, stagger: 0.06 }, 23.6);
+      tl.to("#s6 .win", { scale: 1.6, opacity: 0, duration: 0.4, ease: "expo.in" }, 24.1);
+      tl.to("#s6 .label, #s6 .side-copy, #cursor", { opacity: 0, duration: 0.3 }, 24.15);
+
+      // ================= S7 MONTAGE (24.5 → 27) =================
+      $$("#s7 .cut").forEach((el, i) => {
+        const t = 24.5 + i * 0.25;
+        tl.set(el, { visibility: "visible" }, t);
+        tl.fromTo(el.querySelector(".t"), { scale: 1.35, skewX: i % 2 ? 14 : -14 }, { scale: 1, skewX: 0, duration: 0.22, ease: "expo.out", immediateRender: false }, t);
+        tl.fromTo(el.querySelector(".shape"), { scale: 0.5, rotation: -30 }, { scale: 1.2, rotation: 20, duration: 0.25, ease: "none", immediateRender: false }, t);
+        if (i < 9) tl.set(el, { visibility: "hidden" }, t + 0.25);
+      });
+      tl.to("#s7 .cut:last-child .t", { scale: 0.2, opacity: 0, duration: 0.2, ease: "expo.in" }, 26.8);
+
+      // ================= S8 OUTRO (27 → 30) =================
+      tl.fromTo("#s8 .mark", { scale: 0, rotation: -200 }, { scale: 1, rotation: 0, duration: 0.8, ease: "back.out(1.7)" }, 27.0);
+      tl.fromTo("#s8 .name .ch", { yPercent: 115 }, { yPercent: 0, duration: 0.7, ease: "expo.out", stagger: 0.035 }, 27.1);
+      tl.fromTo("#s8 .role", { opacity: 0, y: 24, scaleX: 1.25 }, { opacity: 1, y: 0, scaleX: 1, duration: 0.9, ease: "expo.out" }, 27.5);
+      tl.fromTo("#s8 .rule", { scaleX: 0 }, { scaleX: 1, duration: 0.8, ease: "expo.inOut" }, 27.6);
+      tl.fromTo("#s8 .contact span", { y: 30, opacity: 0 }, { y: 0, opacity: 1, duration: 0.5, ease: "expo.out", stagger: 0.1 }, 27.9);
+      tl.fromTo("#s8 .avail", { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.5 }, 28.3);
+      tl.fromTo("#s8 .avail b", { opacity: 1 }, { opacity: 0.2, duration: B, yoyo: true, repeat: 3 }, 28.5);
+      tl.fromTo("#s8 .name", { scale: 1 }, { scale: 1.04, duration: 2.8, ease: "none" }, 27.1);
+      tl.fromTo("#s8 .black", { opacity: 0 }, { opacity: 1, duration: 0.45, ease: "power1.in" }, 29.55);
+
+      tl.set({}, {}, 30);
+
+      window.__timelines = window.__timelines || {};
+      window.__timelines["main"] = tl;
+      tl.seek(0);
+    </script>
+  </body>
+</html>
