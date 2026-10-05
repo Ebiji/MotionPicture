@@ -3,8 +3,8 @@ W,H,FPS,N=1920,1076,24,121
 jp=ImageFont.truetype("NotoSerifJP.otf",33)
 en=ImageFont.truetype("Cormorant.ttf",50); en.set_variation_by_name("SemiBold")
 lines=[("動画生成","KLING,  GEMINI"),("画像生成","Chat GPT"),
-       ("音楽生成","SUNO,  Chat GPT"),("動画編集","Canva,  Claude Code,  KOTONOHA")]
-CX,GAP,LH=900,34,66
+       ("音楽生成","SUNO,  Chat GPT"),("動画編集","Canva,  Claude Code")]
+CX,GAP,LH=800,34,66
 STROKE=(12,9,6,235)
 
 def spaced(d,xy,t,f,fill,tr,anchor_right=False,sw=3):
